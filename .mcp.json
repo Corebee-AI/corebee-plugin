@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "corebee": {
+      "type": "http",
+      "url": "https://corebee.ai/api/v1/mcp/stream"
+    }
+  }
+}

@@ -1,0 +1,215 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# These pins are outside Dependabot's reach. Bump them by hand at each
+# release (see CONTRIBUTING.md, Releases). Every integrity hash comes from
+# `npm view <package>@<version> dist.integrity`.
+env:
+  CURSOR_PLUGINS_SHA: c1c0a32802223f4be824112dd83d33ad29a8b26c
+  XAI_MARKETPLACE_SHA: 6b781e0078118254f44fdd45f67a0b1e00aac444
+  AJV_CLI_VERSION: 5.0.0
+  AJV_CLI_INTEGRITY: sha512-LY4m6dUv44HTyhV+u2z5uX4EhPYTM38Iv1jdgDJJJCyOOuqB8KtZEGjPZ2T+sh5ZIJrXUfgErYx/j3gLd3+PlQ==
+  AJV_FORMATS_VERSION: 3.0.1
+  AJV_FORMATS_INTEGRITY: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==
+  CLAUDE_CODE_VERSION: 2.1.274
+  CLAUDE_CODE_INTEGRITY: sha512-UI8TGoOO0fYT38VSoAjtu9C0EQkOwgwA4+ETFCgQhTO9NZvpgCERANL0UzioEW89b2zbcoL1B3z+7W37QdBxOA==
+  CLAUDE_CODE_LINUX_X64_INTEGRITY: sha512-xiC1514UgW1aRvHOtfgUVUACWtOwm42TIeQlllHFAMFLrBYy+cG+MfSTlTYnjUPpu4zmUeEDEs2VdZL/iLIwGQ==
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      - name: Self-test (every check must be able to fail)
+        run: node scripts/validate.mjs --self-test
+      - name: Validate repository
+        run: node scripts/validate.mjs
+
+  cursor-schema:
+    name: cursor-schema
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      - name: Fetch Cursor plugin schema (pinned)
+        run: curl -fsSL "https://raw.githubusercontent.com/cursor/plugins/${CURSOR_PLUGINS_SHA}/schemas/plugin.schema.json" -o "$RUNNER_TEMP/cursor-plugin.schema.json"
+      # ajv is installed outside the checkout with npm scripts off (it needs
+      # none, so none of its dependencies may run one), and the two packages
+      # that run here must match the pinned hashes. Their own dependencies
+      # resolve from the registry, so this locks the code that reads the
+      # manifest, not the whole tree.
+      - name: Install ajv (pinned versions and hashes, no install scripts)
+        env:
+          npm_config_ignore_scripts: "true"
+        run: |
+          mkdir -p "$RUNNER_TEMP/ajv"
+          cd "$RUNNER_TEMP/ajv"
+          printf '{"name":"ajv-ci","private":true}\n' > package.json
+          npm install --no-audit --no-fund --omit=dev "ajv-cli@${AJV_CLI_VERSION}" "ajv-formats@${AJV_FORMATS_VERSION}"
+          node - <<'JS'
+          const lock = require('./package-lock.json');
+          const pinned = {
+            'node_modules/ajv-cli': [process.env.AJV_CLI_VERSION, process.env.AJV_CLI_INTEGRITY],
+            'node_modules/ajv-formats': [process.env.AJV_FORMATS_VERSION, process.env.AJV_FORMATS_INTEGRITY],
+          };
+          const problems = [];
+          for (const [path, [version, integrity]] of Object.entries(pinned)) {
+            const pkg = lock.packages[path];
+            if (!pkg) problems.push(`${path} missing from the lockfile`);
+            else if (pkg.version !== version) problems.push(`${path} resolved to ${pkg.version}, expected ${version}`);
+            else if (pkg.integrity !== integrity) problems.push(`${path} integrity ${pkg.integrity} does not match the pin`);
+          }
+          if (problems.length) { console.error(problems.join('\n')); process.exit(1); }
+          console.log(`ajv locked: ${Object.keys(lock.packages).length - 1} packages, 2 hashes checked`);
+          JS
+      - name: Validate .cursor-plugin/plugin.json
+        run: node "$RUNNER_TEMP/ajv/node_modules/ajv-cli/dist/index.js" validate --spec=draft7 -c ajv-formats -s "$RUNNER_TEMP/cursor-plugin.schema.json" -d .cursor-plugin/plugin.json
+
+  claude-validate:
+    name: claude-validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      # Claude's validator checks the manifests only, not skill frontmatter.
+      # scripts/validate.mjs parses the frontmatter strictly.
+      #
+      # The package is installed with npm scripts off, outside the checkout,
+      # and the resulting lockfile is checked: only @anthropic-ai/claude-code
+      # packages at the pinned version may appear, and the two that run here
+      # (the wrapper and the linux-x64 binary) must match the pinned hashes.
+      # cli-wrapper.cjs launches the binary without the postinstall step.
+      - name: Install Claude Code (pinned version and hashes, no install scripts)
+        env:
+          npm_config_ignore_scripts: "true"
+        run: |
+          mkdir -p "$RUNNER_TEMP/claude-code"
+          cd "$RUNNER_TEMP/claude-code"
+          printf '{"name":"claude-code-ci","private":true}\n' > package.json
+          npm install --no-audit --no-fund --omit=dev "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+          node - <<'JS'
+          const lock = require('./package-lock.json');
+          const version = process.env.CLAUDE_CODE_VERSION;
+          const pinned = {
+            'node_modules/@anthropic-ai/claude-code': process.env.CLAUDE_CODE_INTEGRITY,
+            'node_modules/@anthropic-ai/claude-code-linux-x64': process.env.CLAUDE_CODE_LINUX_X64_INTEGRITY,
+          };
+          const problems = [];
+          for (const [path, pkg] of Object.entries(lock.packages)) {
+            if (path === '') continue;
+            if (!path.startsWith('node_modules/@anthropic-ai/claude-code')) problems.push(`unexpected package ${path}`);
+            if (pkg.version !== version) problems.push(`${path} resolved to ${pkg.version}, expected ${version}`);
+            if (pkg.dependencies && Object.keys(pkg.dependencies).length) problems.push(`${path} has dependencies`);
+          }
+          for (const [path, integrity] of Object.entries(pinned)) {
+            const pkg = lock.packages[path];
+            if (!pkg) problems.push(`${path} missing from the lockfile`);
+            else if (pkg.integrity !== integrity) problems.push(`${path} integrity ${pkg.integrity} does not match the pin`);
+          }
+          const fs = require('fs');
+          for (const path of Object.keys(pinned)) {
+            if (!fs.existsSync(path)) problems.push(`${path} was not installed`);
+          }
+          if (problems.length) { console.error(problems.join('\n')); process.exit(1); }
+          console.log(`Claude Code ${version} locked: ${Object.keys(lock.packages).length - 1} packages, 2 hashes checked`);
+          JS
+      - name: Validate marketplace and plugin (strict)
+        run: node "$RUNNER_TEMP/claude-code/node_modules/@anthropic-ai/claude-code/cli-wrapper.cjs" plugin validate --strict "$GITHUB_WORKSPACE"
+      - name: Validate plugin manifest (strict)
+        run: node "$RUNNER_TEMP/claude-code/node_modules/@anthropic-ai/claude-code/cli-wrapper.cjs" plugin validate --strict "$GITHUB_WORKSPACE/.claude-plugin/plugin.json"
+
+  xai-catalog:
+    name: xai-catalog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Fetch xAI catalog extractor (pinned)
+        run: curl -fsSL "https://raw.githubusercontent.com/xai-org/plugin-marketplace/${XAI_MARKETPLACE_SHA}/scripts/plugin_catalog.py" -o "$RUNNER_TEMP/plugin_catalog.py"
+      - name: Extract plugin the way the xAI index does
+        run: |
+          PYTHONPATH="$RUNNER_TEMP" python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from plugin_catalog import extract_plugin
+
+          manifest = json.loads(Path(".grok-plugin/plugin.json").read_text())
+          record = extract_plugin(Path(".").resolve())
+          print(json.dumps(record, indent=2))
+          components = record["components"]
+          assert record.get("version") == manifest["version"], "version not read from .grok-plugin"
+          skills = {s["name"] for s in components.get("skills", [])}
+          assert skills and all(n.startswith("corebee-") for n in skills), f"unexpected skills: {skills}"
+          servers = components.get("mcpServers", [])
+          assert servers == [{"name": "corebee", "description": "http"}], f"unexpected MCP servers: {servers}"
+          for absent in ("hooks", "commands", "agents", "lspServers"):
+              assert absent not in components, f"unexpected component: {absent}"
+          PY
+
+  links:
+    name: links
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check links in Markdown
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          fail: true
+          args: >-
+            --no-progress
+            --hidden
+            --include-fragments
+            --accept 200,204,429
+            --exclude '^cursor://'
+            --exclude '^mailto:'
+            --exclude 'x\.ai/bot'
+            --exclude 'corebee\.ai/api/v1/mcp/(stream|oauth/)'
+            --exclude '^https://github\.com/Corebee-AI/corebee-plugin'
+            './**/*.md'
+            './rules/*.mdc'

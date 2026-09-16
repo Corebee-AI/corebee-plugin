@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "corebee",
+  "owner": {
+    "name": "Corebee",
+    "email": "support@corebee.ai",
+    "url": "https://corebee.ai"
+  },
+  "description": "Official Corebee plugin marketplace.",
+  "plugins": [
+    {
+      "name": "corebee",
+      "source": "./",
+      "description": "Work your Corebee support inbox: triage and answer web chat, WhatsApp, email and SMS conversations, look up customers and update the knowledge base.",
+      "category": "integrations",
+      "homepage": "https://corebee.ai/docs/mcp",
+      "repository": "https://github.com/Corebee-AI/corebee-plugin",
+      "license": "MIT"
+    }
+  ]
+}

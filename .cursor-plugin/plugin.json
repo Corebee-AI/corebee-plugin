@@ -1,0 +1,22 @@
+{
+  "name": "corebee",
+  "displayName": "Corebee",
+  "version": "1.0.0",
+  "minClientVersions": {
+    "cursor": "3.13.0"
+  },
+  "description": "Work your Corebee support inbox: triage and answer web chat, WhatsApp, email and SMS conversations, look up customers and update the knowledge base.",
+  "author": {
+    "name": "Corebee",
+    "email": "support@corebee.ai"
+  },
+  "publisher": "Corebee",
+  "homepage": "https://corebee.ai/docs/mcp",
+  "repository": "https://github.com/Corebee-AI/corebee-plugin",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "keywords": ["customer support", "helpdesk", "support inbox", "live chat", "whatsapp", "sms", "email support", "contacts", "knowledge base", "csat", "corebee"],
+  "category": "integrations",
+  "tags": ["corebee", "customer-support", "mcp", "oauth"],
+  "mcpServers": "./mcp.json"
+}

@@ -1,0 +1,65 @@
+name: Bug report
+description: Something in the Corebee plugin does not work as documented.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For security issues, do not open an issue. Email jonathan@corebee.ai instead.
+        For account or billing questions, contact support@corebee.ai.
+  - type: dropdown
+    id: host
+    attributes:
+      label: Host
+      options:
+        - Cursor
+        - Grok Bot
+        - Grok Build
+        - Claude Code
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: host-version
+    attributes:
+      label: Host version
+      placeholder: "e.g. 3.15.6"
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      placeholder: "e.g. 1.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Install the plugin
+        2. Ask "..."
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error text
+      description: Paste the exact error message or tool response.
+      render: text
+  - type: checkboxes
+    id: redaction
+    attributes:
+      label: Privacy
+      options:
+        - label: I removed access tokens, API keys and customer data from this report.
+          required: true

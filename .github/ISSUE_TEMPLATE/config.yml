@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/Corebee-AI/corebee-plugin/security/advisories/new
+    about: Please report security issues privately here or by email to jonathan@corebee.ai, not as a public issue.
+  - name: Corebee help center
+    url: https://corebee.ai/help
+    about: Questions about your Corebee account, billing or the Corebee app.

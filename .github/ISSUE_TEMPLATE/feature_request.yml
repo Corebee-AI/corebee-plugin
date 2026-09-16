@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest a new skill or an improvement to an existing one.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Skills can only use tools that Corebee's MCP server already provides. Requests for new server tools are welcome here too, and we will pass them on.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The support task you want your agent to handle.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: A new skill, a change to a skill, or a new server tool.
+    validations:
+      required: true
+  - type: dropdown
+    id: host
+    attributes:
+      label: Host you use
+      multiple: true
+      options:
+        - Cursor
+        - Grok Bot
+        - Grok Build
+        - Claude Code
+        - Other

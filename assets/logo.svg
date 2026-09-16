@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="none" viewBox="0 0 192 192">
+  <title>Corebee</title>
+  <rect width="192" height="192" rx="42" fill="#fff"/>
+  <defs>
+    <clipPath id="cbl"><path d="M155.5 0.0 L311.0 89.8 L311.0 269.3 L155.5 359.1 L0.0 269.3 L0.0 89.8 Z"/></clipPath>
+    <clipPath id="cbr"><path d="M373.5 0.0 L529.0 89.8 L529.0 269.3 L373.5 359.1 L218.0 269.3 L218.0 89.8 Z"/></clipPath>
+  </defs>
+  <g transform="translate(25.21 24.00) scale(0.26713)">
+    <path fill="#95AABE" d="M155.5 0.0 L311.0 89.8 L311.0 269.3 L155.5 359.1 L0.0 269.3 L0.0 89.8 Z"/>
+    <path fill="#4D9493" d="M373.5 0.0 L529.0 89.8 L529.0 269.3 L373.5 359.1 L218.0 269.3 L218.0 89.8 Z"/>
+    <path fill="#1F3253" d="M261.5 179.9 L417.0 269.7 L417.0 449.3 L261.5 539.1 L106.0 449.3 L106.0 269.7 Z"/>
+    <path fill="#2F6971" clip-path="url(#cbl)" d="M373.5 0.0 L529.0 89.8 L529.0 269.3 L373.5 359.1 L218.0 269.3 L218.0 89.8 Z"/>
+    <path fill="#192C4B" clip-path="url(#cbl)" d="M261.5 179.9 L417.0 269.7 L417.0 449.3 L261.5 539.1 L106.0 449.3 L106.0 269.7 Z"/>
+    <path fill="#143047" clip-path="url(#cbr)" d="M261.5 179.9 L417.0 269.7 L417.0 449.3 L261.5 539.1 L106.0 449.3 L106.0 269.7 Z"/>
+    <g clip-path="url(#cbl)"><path fill="#0E253E" clip-path="url(#cbr)" d="M261.5 179.9 L417.0 269.7 L417.0 449.3 L261.5 539.1 L106.0 449.3 L106.0 269.7 Z"/></g>
+  </g>
+</svg>
