@@ -48,7 +48,8 @@ You need a Corebee account ([sign up](https://corebee.ai/auth/signup)). When you
 
 ### Cursor
 
-- **Marketplace:** install Corebee from the Cursor Marketplace or from **Customize**. Cursor reviews each listing, so if Corebee is not listed yet, use one of the options below.
+- **Community directory (live now):** open [Corebee on cursor.directory](https://cursor.directory/plugins/corebee) and use **Add to Cursor**. This installs the whole plugin: the MCP server, the six skills and the rule.
+- **Cursor Marketplace:** our listing is in review. Once it is live you will be able to install from the Marketplace or from **Customize**.
 - **MCP server only:** [Add Corebee MCP to Cursor](https://cursor.com/install-mcp?name=corebee&config=eyJ1cmwiOiJodHRwczovL2NvcmViZWUuYWkvYXBpL3YxL21jcC9zdHJlYW0ifQ==). This adds the server without the skills and rule.
 - **Local test:** copy this repository to `~/.cursor/plugins/local/corebee`, run **Developer: Reload Window**, then check **Customize**.
 
@@ -139,7 +140,7 @@ An owner who wants a read-only connection has two options: connect from a client
 
 ## Tools
 
-The hosted server lists every tool when your client connects (flat discovery, with no search step). Snapshot 2026-09-17: 42 tools (22 read-only, 17 write, 3 destructive). The same list, with parameters, is in [`scripts/tools.json`](scripts/tools.json), and CI checks that this table matches it.
+The hosted server lists every tool when your client connects (flat discovery, with no search step). Snapshot 2026-10-12: 44 tools (22 read-only, 19 write, 3 destructive). The same list, with parameters, is in [`scripts/tools.json`](scripts/tools.json), and CI checks that this table matches it.
 
 ### Conversations
 
@@ -151,6 +152,8 @@ The hosted server lists every tool when your client connects (flat discovery, wi
 | `reply_to_conversation` | `conversations:write` | Send a reply on the conversation's channel, or save an internal note ([details](#replies)) |
 | `assign_conversation` | `conversations:write` | Assign to a team member, or unassign |
 | `close_conversation` | `conversations:write` | Mark resolved |
+| `reopen_conversation` | `conversations:write` | Set the status back to open, for example after it was resolved or snoozed. Sends nothing to the customer |
+| `add_conversation_note` | `conversations:write` | Add an internal note your team sees in the inbox. The customer never sees it and nothing is sent on any channel |
 | `set_priority` | `conversations:write` | Low, medium, high or urgent |
 | `add_label` | `conversations:write` | Add a label by ID. No tool lists labels, so you need the label ID |
 | `bulk_close_conversations` | `conversations:write` | Resolve up to 25 |

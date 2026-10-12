@@ -1,814 +1,16 @@
 {
-  "snapshot_date": "2026-09-17",
+  "snapshot_date": "2026-10-12",
   "server": "https://corebee.ai/api/v1/mcp/stream",
   "note": "Public snapshot of the tools the hosted Corebee MCP server lists in tools/list. The hosted server is the source of truth. Regenerate this file whenever the server changes.",
   "discovery": "flat",
   "discovery_note": "tools/list returns every tool at connect time. There is no search_tools step.",
   "counts": {
-    "total": 42,
+    "total": 44,
     "read": 22,
-    "write": 17,
+    "write": 19,
     "destructive": 3
   },
   "tools": [
-    {
-      "name": "list_conversations",
-      "title": "List Conversations",
-      "group": "conversations",
-      "access": "read",
-      "scope": "conversations:read",
-      "params": [
-        {
-          "name": "status",
-          "required": false,
-          "enum": [
-            "open",
-            "resolved",
-            "pending",
-            "all"
-          ]
-        },
-        {
-          "name": "page",
-          "required": false
-        },
-        {
-          "name": "assignee_id",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "get_conversation",
-      "title": "Get Conversation",
-      "group": "conversations",
-      "access": "read",
-      "scope": "conversations:read",
-      "params": [
-        {
-          "name": "conversation_id",
-          "required": true
-        },
-        {
-          "name": "before",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "reply_to_conversation",
-      "title": "Reply to Conversation",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_id",
-          "required": true
-        },
-        {
-          "name": "content",
-          "required": true
-        },
-        {
-          "name": "private",
-          "required": false
-        },
-        {
-          "name": "idempotency_key",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "assign_conversation",
-      "title": "Assign Conversation",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_id",
-          "required": true
-        },
-        {
-          "name": "assignee_id",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "close_conversation",
-      "title": "Close Conversation",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_id",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "set_priority",
-      "title": "Set Priority",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_id",
-          "required": true
-        },
-        {
-          "name": "priority",
-          "required": false,
-          "enum": [
-            "low",
-            "medium",
-            "high",
-            "urgent"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "add_label",
-      "title": "Add Label",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_id",
-          "required": true
-        },
-        {
-          "name": "label_id",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "bulk_close_conversations",
-      "title": "Bulk Close Conversations",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_ids",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "bulk_snooze_conversations",
-      "title": "Bulk Snooze Conversations",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_ids",
-          "required": true
-        },
-        {
-          "name": "until",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "bulk_tag_with_sentiment",
-      "title": "Bulk Tag With Sentiment",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_ids",
-          "required": true
-        },
-        {
-          "name": "sentiment",
-          "required": true,
-          "enum": [
-            "positive",
-            "neutral",
-            "negative",
-            "frustrated",
-            "happy"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "bulk_export_conversations",
-      "title": "Bulk Export Conversations",
-      "group": "conversations",
-      "access": "read",
-      "scope": "conversations:read",
-      "params": [
-        {
-          "name": "conversation_ids",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "bulk_add_note",
-      "title": "Bulk Add Note",
-      "group": "conversations",
-      "access": "write",
-      "scope": "conversations:write",
-      "params": [
-        {
-          "name": "conversation_ids",
-          "required": true
-        },
-        {
-          "name": "note",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "list_contacts",
-      "title": "List Contacts",
-      "group": "contacts",
-      "access": "read",
-      "scope": "contacts:read",
-      "params": [
-        {
-          "name": "search",
-          "required": false
-        },
-        {
-          "name": "page",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "get_contact",
-      "title": "Get Contact",
-      "group": "contacts",
-      "access": "read",
-      "scope": "contacts:read",
-      "params": [
-        {
-          "name": "contact_id",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "create_contact",
-      "title": "Create Contact",
-      "group": "contacts",
-      "access": "write",
-      "scope": "contacts:write",
-      "params": [
-        {
-          "name": "name",
-          "required": false
-        },
-        {
-          "name": "email",
-          "required": false
-        },
-        {
-          "name": "phone_number",
-          "required": false
-        },
-        {
-          "name": "identifier",
-          "required": false
-        },
-        {
-          "name": "custom_attributes",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "update_contact",
-      "title": "Update Contact",
-      "group": "contacts",
-      "access": "write",
-      "scope": "contacts:write",
-      "params": [
-        {
-          "name": "contact_id",
-          "required": true
-        },
-        {
-          "name": "name",
-          "required": false
-        },
-        {
-          "name": "email",
-          "required": false
-        },
-        {
-          "name": "phone_number",
-          "required": false
-        },
-        {
-          "name": "identifier",
-          "required": false
-        },
-        {
-          "name": "custom_attributes",
-          "required": false
-        },
-        {
-          "name": "blocked",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "delete_contact",
-      "title": "Delete Contact",
-      "group": "contacts",
-      "access": "destructive",
-      "scope": "contacts:delete",
-      "params": [
-        {
-          "name": "contact_id",
-          "required": true
-        },
-        {
-          "name": "confirm_token",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "add_contact_note",
-      "title": "Add Contact Note",
-      "group": "contacts",
-      "access": "write",
-      "scope": "contacts:write",
-      "params": [
-        {
-          "name": "contact_id",
-          "required": true
-        },
-        {
-          "name": "content",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "bulk_delete_contacts",
-      "title": "Bulk Delete Contacts",
-      "group": "contacts",
-      "access": "destructive",
-      "scope": "contacts:delete",
-      "params": [
-        {
-          "name": "contact_ids",
-          "required": true
-        },
-        {
-          "name": "confirm_token",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "list_knowledge_sources",
-      "title": "List Knowledge Sources",
-      "group": "knowledge",
-      "access": "read",
-      "scope": "knowledge:read",
-      "params": [
-        {
-          "name": "type",
-          "required": false,
-          "enum": [
-            "url",
-            "file",
-            "manual",
-            "faq",
-            "all"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "add_knowledge_url",
-      "title": "Add Knowledge URL",
-      "group": "knowledge",
-      "access": "write",
-      "scope": "knowledge:write",
-      "params": [
-        {
-          "name": "url",
-          "required": true
-        },
-        {
-          "name": "name",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "get_knowledge_source",
-      "title": "Get Knowledge Source",
-      "group": "knowledge",
-      "access": "read",
-      "scope": "knowledge:read",
-      "params": [
-        {
-          "name": "source_id",
-          "required": true
-        }
-      ]
-    },
-    {
-      "name": "update_knowledge_source",
-      "title": "Update Knowledge Source",
-      "group": "knowledge",
-      "access": "write",
-      "scope": "knowledge:write",
-      "params": [
-        {
-          "name": "source_id",
-          "required": true
-        },
-        {
-          "name": "name",
-          "required": false
-        },
-        {
-          "name": "source_url",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "delete_knowledge_source",
-      "title": "Delete Knowledge Source",
-      "group": "knowledge",
-      "access": "destructive",
-      "scope": "knowledge:delete",
-      "params": [
-        {
-          "name": "source_id",
-          "required": true
-        },
-        {
-          "name": "confirm_token",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "search_knowledge",
-      "title": "Search Knowledge Base",
-      "group": "knowledge",
-      "access": "read",
-      "scope": "knowledge:read",
-      "params": [
-        {
-          "name": "query",
-          "required": true
-        },
-        {
-          "name": "limit",
-          "required": false
-        },
-        {
-          "name": "source_id",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "get_metrics",
-      "title": "Get Metrics",
-      "group": "metrics",
-      "access": "read",
-      "scope": "metrics:read",
-      "params": [
-        {
-          "name": "period",
-          "required": false,
-          "enum": [
-            "today",
-            "this_week",
-            "this_month",
-            "last_30_days"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "get_agent_performance",
-      "title": "Get Agent Performance",
-      "group": "metrics",
-      "access": "read",
-      "scope": "metrics:read",
-      "params": [
-        {
-          "name": "period",
-          "required": false,
-          "enum": [
-            "today",
-            "this_week",
-            "this_month",
-            "last_30_days"
-          ]
-        },
-        {
-          "name": "agent_id",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "get_channel_analytics",
-      "title": "Get Channel Analytics",
-      "group": "metrics",
-      "access": "read",
-      "scope": "metrics:read",
-      "params": [
-        {
-          "name": "period",
-          "required": false,
-          "enum": [
-            "today",
-            "this_week",
-            "this_month",
-            "last_30_days"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "export_report",
-      "title": "Export Report",
-      "group": "metrics",
-      "access": "read",
-      "scope": "metrics:read",
-      "params": [
-        {
-          "name": "report_type",
-          "required": true,
-          "enum": [
-            "conversations",
-            "contacts",
-            "metrics",
-            "full"
-          ]
-        },
-        {
-          "name": "period",
-          "required": false,
-          "enum": [
-            "today",
-            "this_week",
-            "this_month",
-            "last_30_days",
-            "all_time"
-          ]
-        },
-        {
-          "name": "format",
-          "required": false,
-          "enum": [
-            "json",
-            "summary"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "get_trends",
-      "title": "Get Trends",
-      "group": "metrics",
-      "access": "read",
-      "scope": "metrics:read",
-      "params": [
-        {
-          "name": "metric",
-          "required": true,
-          "enum": [
-            "conversations",
-            "messages",
-            "contacts",
-            "ai_responses"
-          ]
-        },
-        {
-          "name": "period",
-          "required": false,
-          "enum": [
-            "last_7_days",
-            "last_30_days",
-            "last_90_days"
-          ]
-        },
-        {
-          "name": "group_by",
-          "required": false,
-          "enum": [
-            "day",
-            "week"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "update_widget_settings",
-      "title": "Update Widget Settings",
-      "group": "settings",
-      "access": "write",
-      "scope": "settings:write",
-      "params": [
-        {
-          "name": "widget_id",
-          "required": false
-        },
-        {
-          "name": "widget_color",
-          "required": false
-        },
-        {
-          "name": "welcome_title",
-          "required": false
-        },
-        {
-          "name": "reply_time",
-          "required": false,
-          "enum": [
-            "in_a_few_minutes",
-            "in_a_few_hours",
-            "in_a_day"
-          ]
-        },
-        {
-          "name": "pre_chat_form_enabled",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "get_widget_settings",
-      "title": "Get Widget Settings",
-      "group": "settings",
-      "access": "read",
-      "scope": "settings:read",
-      "params": [
-        {
-          "name": "widget_id",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "list_widgets",
-      "title": "List Widgets",
-      "group": "settings",
-      "access": "read",
-      "scope": "settings:read",
-      "params": []
-    },
-    {
-      "name": "configure_widget_appearance",
-      "title": "Configure Widget Appearance",
-      "group": "settings",
-      "access": "write",
-      "scope": "settings:write",
-      "params": [
-        {
-          "name": "widget_id",
-          "required": false
-        },
-        {
-          "name": "widget_color",
-          "required": false
-        },
-        {
-          "name": "welcome_title",
-          "required": false
-        },
-        {
-          "name": "logo_url",
-          "required": false
-        },
-        {
-          "name": "position",
-          "required": false,
-          "enum": [
-            "left",
-            "right"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "configure_widget_behavior",
-      "title": "Configure Widget Behavior",
-      "group": "settings",
-      "access": "write",
-      "scope": "settings:write",
-      "params": [
-        {
-          "name": "widget_id",
-          "required": false
-        },
-        {
-          "name": "reply_time",
-          "required": false,
-          "enum": [
-            "in_a_few_minutes",
-            "in_a_few_hours",
-            "in_a_day"
-          ]
-        },
-        {
-          "name": "pre_chat_form_enabled",
-          "required": false
-        },
-        {
-          "name": "pre_chat_form_options",
-          "required": false
-        }
-      ]
-    },
-    {
-      "name": "list_team_members",
-      "title": "List Team Members",
-      "group": "settings",
-      "access": "read",
-      "scope": "settings:read",
-      "params": [
-        {
-          "name": "role",
-          "required": false,
-          "enum": [
-            "owner",
-            "admin",
-            "agent",
-            "viewer",
-            "all"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "get_organization_settings",
-      "title": "Get Organization Settings",
-      "group": "settings",
-      "access": "read",
-      "scope": "settings:read",
-      "params": []
-    },
-    {
-      "name": "export_report_task",
-      "title": "Export Report (async)",
-      "group": "metrics",
-      "access": "read",
-      "scope": "metrics:read",
-      "params": [
-        {
-          "name": "report_type",
-          "required": true,
-          "enum": [
-            "conversations",
-            "contacts",
-            "metrics",
-            "full"
-          ]
-        },
-        {
-          "name": "period",
-          "required": false,
-          "enum": [
-            "today",
-            "this_week",
-            "this_month",
-            "last_30_days",
-            "all_time"
-          ]
-        },
-        {
-          "name": "format",
-          "required": false,
-          "enum": [
-            "json",
-            "summary"
-          ]
-        }
-      ]
-    },
     {
       "name": "a2a_action_agent",
       "title": "A2A: Action Agent",
@@ -889,6 +91,834 @@
         },
         {
           "name": "history",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "add_contact_note",
+      "title": "Add Contact Note",
+      "group": "contacts",
+      "access": "write",
+      "scope": "contacts:write",
+      "params": [
+        {
+          "name": "contact_id",
+          "required": true
+        },
+        {
+          "name": "content",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "bulk_delete_contacts",
+      "title": "Bulk Delete Contacts",
+      "group": "contacts",
+      "access": "destructive",
+      "scope": "contacts:delete",
+      "params": [
+        {
+          "name": "contact_ids",
+          "required": true
+        },
+        {
+          "name": "confirm_token",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "create_contact",
+      "title": "Create Contact",
+      "group": "contacts",
+      "access": "write",
+      "scope": "contacts:write",
+      "params": [
+        {
+          "name": "name",
+          "required": false
+        },
+        {
+          "name": "email",
+          "required": false
+        },
+        {
+          "name": "phone_number",
+          "required": false
+        },
+        {
+          "name": "identifier",
+          "required": false
+        },
+        {
+          "name": "custom_attributes",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "delete_contact",
+      "title": "Delete Contact",
+      "group": "contacts",
+      "access": "destructive",
+      "scope": "contacts:delete",
+      "params": [
+        {
+          "name": "contact_id",
+          "required": true
+        },
+        {
+          "name": "confirm_token",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "get_contact",
+      "title": "Get Contact",
+      "group": "contacts",
+      "access": "read",
+      "scope": "contacts:read",
+      "params": [
+        {
+          "name": "contact_id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "list_contacts",
+      "title": "List Contacts",
+      "group": "contacts",
+      "access": "read",
+      "scope": "contacts:read",
+      "params": [
+        {
+          "name": "search",
+          "required": false
+        },
+        {
+          "name": "page",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "update_contact",
+      "title": "Update Contact",
+      "group": "contacts",
+      "access": "write",
+      "scope": "contacts:write",
+      "params": [
+        {
+          "name": "contact_id",
+          "required": true
+        },
+        {
+          "name": "name",
+          "required": false
+        },
+        {
+          "name": "email",
+          "required": false
+        },
+        {
+          "name": "phone_number",
+          "required": false
+        },
+        {
+          "name": "identifier",
+          "required": false
+        },
+        {
+          "name": "custom_attributes",
+          "required": false
+        },
+        {
+          "name": "blocked",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "add_conversation_note",
+      "title": "Add Conversation Note",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        },
+        {
+          "name": "content",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "add_label",
+      "title": "Add Label",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        },
+        {
+          "name": "label_id",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "assign_conversation",
+      "title": "Assign Conversation",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        },
+        {
+          "name": "assignee_id",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "bulk_add_note",
+      "title": "Bulk Add Note",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_ids",
+          "required": true
+        },
+        {
+          "name": "note",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "bulk_close_conversations",
+      "title": "Bulk Close Conversations",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_ids",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "bulk_export_conversations",
+      "title": "Bulk Export Conversations",
+      "group": "conversations",
+      "access": "read",
+      "scope": "conversations:read",
+      "params": [
+        {
+          "name": "conversation_ids",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "bulk_snooze_conversations",
+      "title": "Bulk Snooze Conversations",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_ids",
+          "required": true
+        },
+        {
+          "name": "until",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "bulk_tag_with_sentiment",
+      "title": "Bulk Tag With Sentiment",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_ids",
+          "required": true
+        },
+        {
+          "name": "sentiment",
+          "required": true,
+          "enum": [
+            "positive",
+            "neutral",
+            "negative",
+            "frustrated",
+            "happy"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "close_conversation",
+      "title": "Close Conversation",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "get_conversation",
+      "title": "Get Conversation",
+      "group": "conversations",
+      "access": "read",
+      "scope": "conversations:read",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        },
+        {
+          "name": "before",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "list_conversations",
+      "title": "List Conversations",
+      "group": "conversations",
+      "access": "read",
+      "scope": "conversations:read",
+      "params": [
+        {
+          "name": "status",
+          "required": false,
+          "enum": [
+            "open",
+            "resolved",
+            "pending",
+            "all"
+          ]
+        },
+        {
+          "name": "page",
+          "required": false
+        },
+        {
+          "name": "assignee_id",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "reopen_conversation",
+      "title": "Reopen Conversation",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "reply_to_conversation",
+      "title": "Reply to Conversation",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        },
+        {
+          "name": "content",
+          "required": true
+        },
+        {
+          "name": "private",
+          "required": false
+        },
+        {
+          "name": "idempotency_key",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "set_priority",
+      "title": "Set Priority",
+      "group": "conversations",
+      "access": "write",
+      "scope": "conversations:write",
+      "params": [
+        {
+          "name": "conversation_id",
+          "required": true
+        },
+        {
+          "name": "priority",
+          "required": false,
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "urgent"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "add_knowledge_url",
+      "title": "Add Knowledge URL",
+      "group": "knowledge",
+      "access": "write",
+      "scope": "knowledge:write",
+      "params": [
+        {
+          "name": "url",
+          "required": true
+        },
+        {
+          "name": "name",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "delete_knowledge_source",
+      "title": "Delete Knowledge Source",
+      "group": "knowledge",
+      "access": "destructive",
+      "scope": "knowledge:delete",
+      "params": [
+        {
+          "name": "source_id",
+          "required": true
+        },
+        {
+          "name": "confirm_token",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "get_knowledge_source",
+      "title": "Get Knowledge Source",
+      "group": "knowledge",
+      "access": "read",
+      "scope": "knowledge:read",
+      "params": [
+        {
+          "name": "source_id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "list_knowledge_sources",
+      "title": "List Knowledge Sources",
+      "group": "knowledge",
+      "access": "read",
+      "scope": "knowledge:read",
+      "params": [
+        {
+          "name": "type",
+          "required": false,
+          "enum": [
+            "url",
+            "file",
+            "manual",
+            "faq",
+            "all"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search_knowledge",
+      "title": "Search Knowledge Base",
+      "group": "knowledge",
+      "access": "read",
+      "scope": "knowledge:read",
+      "params": [
+        {
+          "name": "query",
+          "required": true
+        },
+        {
+          "name": "limit",
+          "required": false
+        },
+        {
+          "name": "source_id",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "update_knowledge_source",
+      "title": "Update Knowledge Source",
+      "group": "knowledge",
+      "access": "write",
+      "scope": "knowledge:write",
+      "params": [
+        {
+          "name": "source_id",
+          "required": true
+        },
+        {
+          "name": "name",
+          "required": false
+        },
+        {
+          "name": "source_url",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "export_report",
+      "title": "Export Report",
+      "group": "metrics",
+      "access": "read",
+      "scope": "metrics:read",
+      "params": [
+        {
+          "name": "report_type",
+          "required": true,
+          "enum": [
+            "conversations",
+            "contacts",
+            "metrics",
+            "full"
+          ]
+        },
+        {
+          "name": "period",
+          "required": false,
+          "enum": [
+            "today",
+            "this_week",
+            "this_month",
+            "last_30_days",
+            "all_time"
+          ]
+        },
+        {
+          "name": "format",
+          "required": false,
+          "enum": [
+            "json",
+            "summary"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export_report_task",
+      "title": "Export Report (async)",
+      "group": "metrics",
+      "access": "read",
+      "scope": "metrics:read",
+      "params": [
+        {
+          "name": "report_type",
+          "required": true,
+          "enum": [
+            "conversations",
+            "contacts",
+            "metrics",
+            "full"
+          ]
+        },
+        {
+          "name": "period",
+          "required": false,
+          "enum": [
+            "today",
+            "this_week",
+            "this_month",
+            "last_30_days",
+            "all_time"
+          ]
+        },
+        {
+          "name": "format",
+          "required": false,
+          "enum": [
+            "json",
+            "summary"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get_agent_performance",
+      "title": "Get Agent Performance",
+      "group": "metrics",
+      "access": "read",
+      "scope": "metrics:read",
+      "params": [
+        {
+          "name": "period",
+          "required": false,
+          "enum": [
+            "today",
+            "this_week",
+            "this_month",
+            "last_30_days"
+          ]
+        },
+        {
+          "name": "agent_id",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "get_channel_analytics",
+      "title": "Get Channel Analytics",
+      "group": "metrics",
+      "access": "read",
+      "scope": "metrics:read",
+      "params": [
+        {
+          "name": "period",
+          "required": false,
+          "enum": [
+            "today",
+            "this_week",
+            "this_month",
+            "last_30_days"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get_metrics",
+      "title": "Get Metrics",
+      "group": "metrics",
+      "access": "read",
+      "scope": "metrics:read",
+      "params": [
+        {
+          "name": "period",
+          "required": false,
+          "enum": [
+            "today",
+            "this_week",
+            "this_month",
+            "last_30_days"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get_trends",
+      "title": "Get Trends",
+      "group": "metrics",
+      "access": "read",
+      "scope": "metrics:read",
+      "params": [
+        {
+          "name": "metric",
+          "required": true,
+          "enum": [
+            "conversations",
+            "messages",
+            "contacts",
+            "ai_responses"
+          ]
+        },
+        {
+          "name": "period",
+          "required": false,
+          "enum": [
+            "last_7_days",
+            "last_30_days",
+            "last_90_days"
+          ]
+        },
+        {
+          "name": "group_by",
+          "required": false,
+          "enum": [
+            "day",
+            "week"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "configure_widget_appearance",
+      "title": "Configure Widget Appearance",
+      "group": "settings",
+      "access": "write",
+      "scope": "settings:write",
+      "params": [
+        {
+          "name": "widget_id",
+          "required": false
+        },
+        {
+          "name": "widget_color",
+          "required": false
+        },
+        {
+          "name": "welcome_title",
+          "required": false
+        },
+        {
+          "name": "logo_url",
+          "required": false
+        },
+        {
+          "name": "position",
+          "required": false,
+          "enum": [
+            "left",
+            "right"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "configure_widget_behavior",
+      "title": "Configure Widget Behavior",
+      "group": "settings",
+      "access": "write",
+      "scope": "settings:write",
+      "params": [
+        {
+          "name": "widget_id",
+          "required": false
+        },
+        {
+          "name": "reply_time",
+          "required": false,
+          "enum": [
+            "in_a_few_minutes",
+            "in_a_few_hours",
+            "in_a_day"
+          ]
+        },
+        {
+          "name": "pre_chat_form_enabled",
+          "required": false
+        },
+        {
+          "name": "pre_chat_form_options",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "get_organization_settings",
+      "title": "Get Organization Settings",
+      "group": "settings",
+      "access": "read",
+      "scope": "settings:read",
+      "params": []
+    },
+    {
+      "name": "get_widget_settings",
+      "title": "Get Widget Settings",
+      "group": "settings",
+      "access": "read",
+      "scope": "settings:read",
+      "params": [
+        {
+          "name": "widget_id",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "list_team_members",
+      "title": "List Team Members",
+      "group": "settings",
+      "access": "read",
+      "scope": "settings:read",
+      "params": [
+        {
+          "name": "role",
+          "required": false,
+          "enum": [
+            "owner",
+            "admin",
+            "agent",
+            "viewer",
+            "all"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list_widgets",
+      "title": "List Widgets",
+      "group": "settings",
+      "access": "read",
+      "scope": "settings:read",
+      "params": []
+    },
+    {
+      "name": "update_widget_settings",
+      "title": "Update Widget Settings",
+      "group": "settings",
+      "access": "write",
+      "scope": "settings:write",
+      "params": [
+        {
+          "name": "widget_id",
+          "required": false
+        },
+        {
+          "name": "widget_color",
+          "required": false
+        },
+        {
+          "name": "welcome_title",
+          "required": false
+        },
+        {
+          "name": "reply_time",
+          "required": false,
+          "enum": [
+            "in_a_few_minutes",
+            "in_a_few_hours",
+            "in_a_day"
+          ]
+        },
+        {
+          "name": "pre_chat_form_enabled",
           "required": false
         }
       ]

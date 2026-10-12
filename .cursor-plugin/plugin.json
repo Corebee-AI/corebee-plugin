@@ -15,8 +15,27 @@
   "repository": "https://github.com/Corebee-AI/corebee-plugin",
   "license": "MIT",
   "logo": "assets/logo.svg",
-  "keywords": ["customer support", "helpdesk", "support inbox", "live chat", "whatsapp", "sms", "email support", "contacts", "knowledge base", "csat", "corebee"],
+  "keywords": [
+    "customer support",
+    "helpdesk",
+    "support inbox",
+    "live chat",
+    "whatsapp",
+    "sms",
+    "email support",
+    "contacts",
+    "knowledge base",
+    "csat",
+    "corebee"
+  ],
   "category": "integrations",
-  "tags": ["corebee", "customer-support", "mcp", "oauth"],
+  "tags": [
+    "corebee",
+    "customer-support",
+    "mcp",
+    "oauth"
+  ],
+  "skills": "./skills",
+  "rules": "./rules",
   "mcpServers": "./mcp.json"
 }
